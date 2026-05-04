@@ -13,13 +13,13 @@ export default class KnowledgeGraphPlugin extends Plugin {
 			(leaf) => new GraphView(leaf, this)
 		);
 
-		this.addRibbonIcon('network', 'Open Knowledge Graph', () => {
-			this.activateView();
+		this.addRibbonIcon('network', 'Open knowledge graph', () => {
+			void this.activateView();
 		});
 
 		this.addCommand({
-			id: 'open-knowledge-graph',
-			name: 'Open knowledge graph',
+			id: 'open-graph-view',
+			name: 'Open graph',
 			callback: () => this.activateView(),
 		});
 
@@ -30,7 +30,7 @@ export default class KnowledgeGraphPlugin extends Plugin {
 				const activeFile = this.app.workspace.getActiveFile();
 				if (activeFile) {
 					if (!checking) {
-						this.focusOnNote(activeFile.path);
+						void this.focusOnNote(activeFile.path);
 					}
 					return true;
 				}
@@ -53,12 +53,12 @@ export default class KnowledgeGraphPlugin extends Plugin {
 
 	async activateView() {
 		const { workspace } = this.app;
-		workspace.ensureSideLeaf(VIEW_TYPE_GRAPH, 'right', { active: true });
+		await workspace.ensureSideLeaf(VIEW_TYPE_GRAPH, 'right', { active: true });
 	}
 
 	async focusOnNote(notePath: string) {
 		const { workspace } = this.app;
-		workspace.ensureSideLeaf(VIEW_TYPE_GRAPH, 'right', { active: true });
+		await workspace.ensureSideLeaf(VIEW_TYPE_GRAPH, 'right', { active: true });
 
 		const leaves = workspace.getLeavesOfType(VIEW_TYPE_GRAPH);
 		for (const leaf of leaves) {

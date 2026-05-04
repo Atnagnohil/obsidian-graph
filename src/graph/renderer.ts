@@ -28,7 +28,7 @@ export class GraphRenderer {
 
 		this.zoomBehavior = d3.zoom<SVGSVGElement, unknown>()
 			.scaleExtent([0.2, 5])
-			.on('zoom', (event) => {
+			.on('zoom', (event: d3.D3ZoomEvent<SVGSVGElement, unknown>) => {
 				this.mainGroup.attr('transform', event.transform.toString());
 			});
 		this.svg.call(this.zoomBehavior);
@@ -58,10 +58,10 @@ export class GraphRenderer {
 
 		this.simulation.on('tick', () => {
 			this.linkGroup.selectAll<SVGLineElement, GraphEdge>('line')
-				.attr('x1', d => (d as any).source.x)
-				.attr('y1', d => (d as any).source.y)
-				.attr('x2', d => (d as any).target.x)
-				.attr('y2', d => (d as any).target.y);
+				.attr('x1', d => (d.source as unknown as GraphNode).x!)
+				.attr('y1', d => (d.source as unknown as GraphNode).y!)
+				.attr('x2', d => (d.target as unknown as GraphNode).x!)
+				.attr('y2', d => (d.target as unknown as GraphNode).y!);
 			this.nodeGroup.selectAll<SVGGElement, GraphNode>('g')
 				.attr('transform', d => `translate(${d.x},${d.y})`);
 		});
@@ -96,7 +96,8 @@ export class GraphRenderer {
 			.translate(-node.x, -node.y);
 
 		this.svg.transition().duration(750).call(
-			this.zoomBehavior.transform as any, transform
+			(tr: d3.Transition<SVGSVGElement, unknown, null, undefined>) =>
+				this.zoomBehavior.transform(tr, transform)
 		);
 
 		this.highlightNode(nodeId);
@@ -170,7 +171,7 @@ export class GraphRenderer {
 			.data(data.nodes)
 			.join('g')
 			.attr('class', 'kg-node')
-			.call(this.createDrag(sim) as any);
+			.call(this.createDrag(sim));
 
 		node.append('circle')
 			.attr('class', 'kg-node-glow')
@@ -190,36 +191,36 @@ export class GraphRenderer {
 			.attr('dx', d => nodeRadius(d, this.plugin.settings) + 7)
 			.attr('dy', 4);
 
-		node.on('click', (event, d) => {
+		node.on('click', (event: MouseEvent, d: GraphNode) => {
 			event.stopPropagation();
 			this.highlightNode(d.id);
 			this.showTooltip(event, d, true);
 		});
 
-		node.on('dblclick.kg', (event, d) => {
+		node.on('dblclick.kg', (event: MouseEvent, d: GraphNode) => {
 			event.stopPropagation();
-			this.plugin.app.workspace.openLinkText(d.file, '', false);
+			void this.plugin.app.workspace.openLinkText(d.file, '', false);
 		});
 
-		node.on('mouseover', (event, d) => {
+		node.on('mouseover', (event: MouseEvent, d: GraphNode) => {
 			if (this.highlighted.size === 0) {
 				this.showTooltip(event, d, false);
 			}
 		});
 
-		node.on('mousemove', (event) => {
+		node.on('mousemove', (event: MouseEvent) => {
 			d3.select('#kg-tooltip')
 				.style('left', (event.pageX + 16) + 'px')
 				.style('top', (event.pageY - 40) + 'px');
 		});
 
-		node.on('mouseout', () => {
+		node.on('mouseout', (_event: MouseEvent) => {
 			if (this.highlighted.size === 0) {
 				d3.select('#kg-tooltip').classed('visible', false);
 			}
 		});
 
-		this.svg.on('click', () => {
+		this.svg.on('click', (_event: MouseEvent) => {
 			this.highlighted.clear();
 			this.updateHighlighting();
 			d3.select('#kg-tooltip').classed('visible', false);
@@ -228,16 +229,16 @@ export class GraphRenderer {
 
 	private createDrag(sim: d3.Simulation<GraphNode, GraphEdge>) {
 		return d3.drag<SVGGElement, GraphNode>()
-			.on('start', (event, d) => {
+			.on('start', (event: d3.D3DragEvent<SVGGElement, GraphNode, GraphNode>, d: GraphNode) => {
 				if (!event.active) sim.alphaTarget(0.3).restart();
 				d.fx = d.x;
 				d.fy = d.y;
 			})
-			.on('drag', (event, d) => {
+			.on('drag', (event: d3.D3DragEvent<SVGGElement, GraphNode, GraphNode>, d: GraphNode) => {
 				d.fx = event.x;
 				d.fy = event.y;
 			})
-			.on('end', (event, d) => {
+			.on('end', (event: d3.D3DragEvent<SVGGElement, GraphNode, GraphNode>, d: GraphNode) => {
 				if (!event.active) sim.alphaTarget(0);
 				d.fx = undefined;
 				d.fy = undefined;
@@ -283,13 +284,15 @@ export class GraphRenderer {
 	}
 
 	private edgeSourceId(e: GraphEdge): string {
-		const s: string | GraphNode = e.source as string | GraphNode;
-		return typeof s === 'string' ? s : s.id;
+		const s = e.source;
+		return typeof s === 'string' ? s :
+			typeof s === 'number' ? String(s) : s.id;
 	}
 
 	private edgeTargetId(e: GraphEdge): string {
-		const t: string | GraphNode = e.target as string | GraphNode;
-		return typeof t === 'string' ? t : t.id;
+		const t = e.target;
+		return typeof t === 'string' ? t :
+			typeof t === 'number' ? String(t) : t.id;
 	}
 
 	private showTooltip(event: MouseEvent, d: GraphNode, showDetail: boolean): void {
@@ -321,8 +324,8 @@ export class GraphRenderer {
 	}
 
 	private ensureTooltip(): void {
-		if (document.getElementById('kg-tooltip')) return;
-		d3.select('body').append('div')
+		if (activeDocument.getElementById('kg-tooltip')) return;
+		d3.select(activeDocument.body).append('div')
 			.attr('id', 'kg-tooltip')
 			.attr('class', 'kg-tooltip');
 	}

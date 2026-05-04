@@ -13,7 +13,7 @@ export function buildGraphData(app: App): GraphData {
 		const tags: string[] = [];
 
 		if (cache?.frontmatter?.tags) {
-			const raw = cache.frontmatter.tags;
+			const raw: unknown = cache.frontmatter.tags;
 			if (Array.isArray(raw)) {
 				for (const t of raw) {
 					if (typeof t === 'string') tags.push(t);

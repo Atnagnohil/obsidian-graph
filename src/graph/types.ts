@@ -10,10 +10,7 @@ export interface GraphNode extends SimulationNodeDatum {
 	totalDegree: number;
 }
 
-export interface GraphEdge extends SimulationLinkDatum<GraphNode> {
-	source: string;
-	target: string;
-}
+export type GraphEdge = SimulationLinkDatum<GraphNode>;
 
 export interface GraphData {
 	nodes: GraphNode[];

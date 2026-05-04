@@ -21,21 +21,23 @@ export class GraphView extends ItemView {
 	}
 
 	getDisplayText(): string {
-		return 'Knowledge Graph';
+		return 'Knowledge graph';
 	}
 
 	getIcon(): string {
 		return 'network';
 	}
 
-	async onOpen(): Promise<void> {
+	onOpen(): Promise<void> {
 		this.refresh();
+		return Promise.resolve();
 	}
 
-	async onClose(): Promise<void> {
+	onClose(): Promise<void> {
 		this.renderer?.destroy();
 		this.renderer = null;
 		this.contentEl.empty();
+		return Promise.resolve();
 	}
 
 	focusOnNode(nodeId: string): void {
@@ -50,15 +52,15 @@ export class GraphView extends ItemView {
 		this.renderer?.destroy();
 
 		const raw = buildGraphData(this.plugin.app);
-		console.log('Knowledge Graph:', raw);
+		console.debug('Knowledge Graph:', raw);
 
 		const container = this.contentEl;
 		container.empty();
 
 		if (raw.nodes.length === 0) {
-			container.createEl('div', {
+			container.createDiv({
 				cls: 'kg-container',
-				text: 'No markdown notes found in vault.',
+				text: 'No Markdown notes found in vault.',
 			});
 			return;
 		}
@@ -79,7 +81,7 @@ export class GraphView extends ItemView {
 			};
 		}
 
-		const graphEl = container.createEl('div', { cls: 'kg-container' });
+		const graphEl = container.createDiv({ cls: 'kg-container' });
 		this.renderer = new GraphRenderer(graphEl, this.plugin);
 		this.renderer.render(data);
 

@@ -52,7 +52,7 @@ export class KnowledgeGraphSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		containerEl.createEl('h2', { text: 'Knowledge Graph Settings' });
+		new Setting(containerEl).setName('Display').setHeading();
 
 		const makeHelp = (el: HTMLElement, text: string): void => {
 			const helpEl = el.createSpan({ cls: 'kg-setting-help', text: '?' });
@@ -128,12 +128,12 @@ export class KnowledgeGraphSettingTab extends PluginSettingTab {
 				.setCta()
 				.onClick(async () => {
 					await this.plugin.saveSettings();
-					new Notice('Knowledge Graph settings saved');
+					new Notice('Knowledge graph settings saved');
 				}));
 	}
 
 	private debouncedRefresh(): void {
-		if (this.debounceTimer) clearTimeout(this.debounceTimer);
+		if (this.debounceTimer) activeWindow.clearTimeout(this.debounceTimer);
 		this.debounceTimer = window.setTimeout(() => {
 			this.plugin.refreshGraphViews();
 		}, 200);
