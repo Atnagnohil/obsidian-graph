@@ -1,0 +1,266 @@
+/******************************************************************************
+ * Obsidian Knowledge Graph — Styles
+ * Refined Editorial aesthetic
+ *****************************************************************************/
+
+/* ── Graph container ── */
+.kg-container {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+	background-color: var(--background-primary);
+	background-image: radial-gradient(
+		circle,
+		var(--background-modifier-border) 1px,
+		transparent 1px
+	);
+	background-size: 24px 24px;
+}
+
+.kg-container svg {
+	display: block;
+}
+
+/* ── Nodes ── */
+.kg-node-glow {
+	opacity: 0;
+	transition: opacity 0.35s ease;
+	pointer-events: none;
+}
+
+.kg-node-circle {
+	cursor: pointer;
+	transition: stroke 0.25s ease, stroke-width 0.25s ease, opacity 0.35s ease;
+}
+
+.kg-node-label {
+	font-size: 11px;
+	letter-spacing: 0.03em;
+	fill: var(--text-muted);
+	pointer-events: none;
+	transition: opacity 0.35s ease, fill 0.25s ease;
+}
+
+.kg-node:hover .kg-node-circle {
+	stroke: var(--interactive-accent);
+	stroke-width: 2.5;
+	filter: brightness(1.1);
+}
+
+.kg-node:hover .kg-node-glow {
+	opacity: 0.4;
+}
+
+.kg-node:hover .kg-node-label {
+	fill: var(--text-normal);
+}
+
+/* ── Links ── */
+.kg-link {
+	stroke: var(--background-modifier-border);
+	stroke-width: 1;
+	stroke-linecap: round;
+	transition: stroke 0.3s ease, stroke-width 0.3s ease, opacity 0.3s ease;
+}
+
+/* ── Tooltip ── */
+.kg-tooltip {
+	position: absolute;
+	display: flex;
+	align-items: stretch;
+	pointer-events: none;
+	opacity: 0;
+	transform: translateY(4px);
+	transition: opacity 0.2s ease, transform 0.2s ease;
+	max-width: 280px;
+	border-radius: 10px;
+	overflow: hidden;
+	box-shadow:
+		0 0 0 1px var(--background-modifier-border),
+		0 12px 32px rgba(0, 0, 0, 0.35);
+	backdrop-filter: blur(16px) saturate(140%);
+	-webkit-backdrop-filter: blur(16px) saturate(140%);
+	background: color-mix(in srgb, var(--background-secondary) 92%, transparent);
+}
+
+.kg-tooltip.visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.kg-tooltip-accent {
+	width: 3px;
+	flex-shrink: 0;
+}
+
+.kg-tooltip-body {
+	padding: 14px 16px;
+}
+
+.kg-tooltip-name {
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--text-normal);
+	letter-spacing: 0.02em;
+	margin-bottom: 8px;
+}
+
+.kg-tooltip-meta {
+	color: var(--text-muted);
+	font-size: 11px;
+	letter-spacing: 0.02em;
+	margin-bottom: 6px;
+	display: flex;
+	gap: 12px;
+}
+
+.kg-tooltip-stat {
+	white-space: nowrap;
+}
+
+.kg-tooltip-stat-value {
+	font-weight: 600;
+	color: var(--text-normal);
+	font-variant-numeric: tabular-nums;
+}
+
+.kg-tooltip-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.kg-tag {
+	display: inline-block;
+	font-size: 10px;
+	font-weight: 500;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	padding: 2px 8px;
+	border-radius: 10px;
+	color: var(--text-muted);
+	background: var(--background-modifier-hover);
+	border: 1px solid var(--background-modifier-border);
+}
+
+/* ── Stats overlay ── */
+.kg-stats {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	background: color-mix(in srgb, var(--background-secondary) 94%, transparent);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 10px;
+	padding: 14px 20px;
+	min-width: 160px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.kg-stats-title {
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--text-muted);
+	margin-bottom: 12px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.kg-stats-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	padding: 3px 0;
+}
+
+.kg-stats-label {
+	font-size: 12px;
+	color: var(--text-muted);
+}
+
+.kg-stats-value {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--text-normal);
+	font-variant-numeric: tabular-nums;
+}
+
+.kg-stats-warn .kg-stats-label,
+.kg-stats-warn .kg-stats-value {
+	color: var(--text-warning);
+}
+
+/* ── Legend ── */
+.kg-legend {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	background: color-mix(in srgb, var(--background-secondary) 94%, transparent);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 10px;
+	padding: 12px 16px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.kg-legend-title {
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--text-muted);
+	margin-bottom: 8px;
+}
+
+.kg-legend-pills {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	max-width: 220px;
+}
+
+.kg-legend-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 3px 10px 3px 6px;
+	border-radius: 14px;
+	background: var(--background-modifier-hover);
+	border: 1px solid var(--background-modifier-border);
+	font-size: 11px;
+	color: var(--text-muted);
+}
+
+.kg-legend-swatch {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.kg-legend-name {
+	white-space: nowrap;
+}
+
+/* ── Settings help icon ── */
+.kg-setting-help {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	margin-left: 6px;
+	border-radius: 50%;
+	background: var(--background-modifier-border);
+	color: var(--text-muted);
+	font-size: 10px;
+	font-weight: 700;
+	cursor: help;
+	vertical-align: middle;
+	line-height: 1;
+}
