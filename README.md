@@ -1,29 +1,68 @@
-# Obsidian Knowledge Graph
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)">
+    <img alt="Obsidian Knowledge Graph" src="assets/icon.svg" width="96">
+  </picture>
+</p>
 
-Interactive D3.js force-directed knowledge graph for your Obsidian vault — rendered from `[[wikilinks]]`.
+<h1 align="center">Obsidian Knowledge Graph</h1>
 
-![version](https://img.shields.io/badge/version-0.1.0-blue)
-![license](https://img.shields.io/badge/license-MIT-green)
+<p align="center">
+  <b>Interactive force-directed graph of your vault's [[wikilinks]]</b>
+</p>
 
-## Features
+<p align="center">
+  <a href="https://github.com/Atnagnohil/obsidian-graph/releases">
+    <img alt="Version" src="https://img.shields.io/github/v/release/Atnagnohil/obsidian-graph?style=flat-square&color=%237c3aed">
+  </a>
+  <a href="LICENSE">
+    <img alt="License" src="https://img.shields.io/badge/license-MIT-green?style=flat-square">
+  </a>
+  <img alt="Min App Version" src="https://img.shields.io/badge/Obsidian-%3E%3D1.5.0-7c3aed?style=flat-square">
+</p>
 
-- **Force-directed graph** — D3.js force simulation with drag, zoom, and pan
-- **Wikilinks as edges** — reads `[[wikilinks]]` from Obsidian's MetadataCache (zero parsing overhead)
-- **Tag-based coloring** — 11 color palettes, mapped from YAML frontmatter tags
-- **Click to highlight** — click a node to highlight its neighbors, double-click to open the note
-- **Focus on current note** — command to center the graph on your active file
-- **Refined Editorial design** — glass-morphism tooltips, dot-grid background, node glow effects
-- **Live settings** — force strength, node size, color palette, orphan visibility — all update instantly
+<!-- TODO: add screenshot -->
 
-## Installation
 
-### From Obsidian Community Plugins (coming soon)
+### Features
 
-1. Open Settings → Community Plugins
-2. Search "Knowledge Graph"
-3. Install and enable
+<table>
+<tr>
+  <td width="50%">
+    <h4>&#9670; Force-directed layout</h4>
+    D3.js simulation with drag, zoom, and pan. Nodes with more connections grow larger.
+  </td>
+  <td width="50%">
+    <h4>&#9670; Zero-overhead data</h4>
+    Reads <code>[[wikilinks]]</code> directly from Obsidian's MetadataCache — no parsing needed.
+  </td>
+</tr>
+<tr>
+  <td>
+    <h4>&#9670; 11 color palettes</h4>
+    Tag-based node coloring with palettes from D3 (Set3, Category10, Pastel, Dark2, Tableau10, Monochrome & more).
+  </td>
+  <td>
+    <h4>&#9670; Smart navigation</h4>
+    Click to highlight neighbors. Double-click to open the note. Command to center on your current file.
+  </td>
+</tr>
+<tr>
+  <td>
+    <h4>&#9670; Live settings</h4>
+    Adjust force strength, node size, color palette, orphan visibility — graph updates instantly.
+  </td>
+  <td>
+    <h4>&#9670; Refined Editorial design</h4>
+    Glass-morphism tooltips, dot-grid background, node glow on highlight, editorial-style stats panel.
+  </td>
+</tr>
+</table>
 
-### Manual
+### Install
+
+<details open>
+<summary><b>Manual</b></summary>
 
 ```bash
 cd /path/to/vault/.obsidian/plugins
@@ -31,46 +70,56 @@ git clone https://github.com/Atnagnohil/obsidian-graph.git
 cd obsidian-graph
 npm install && npm run build
 ```
+</details>
 
-Then enable the plugin in Settings → Community Plugins.
+<details>
+<summary><b>BRAT (Beta)</b></summary>
 
-### From BRAT
-
-1. Install [BRAT](https://github.com/TfTHacker/obsidian42-brat) plugin
+1. Install [BRAT](https://github.com/TfTHacker/obsidian42-brat)
 2. Add `Atnagnohil/obsidian-graph` as a beta plugin
-3. Enable "Knowledge Graph" in Community Plugins
+3. Enable **Knowledge Graph** in Community Plugins
+</details>
 
-## Usage
+<details>
+<summary><b>Community Plugins</b></summary>
+
+*Coming soon — pending review for the Obsidian plugin marketplace.*
+</details>
+
+### Usage
 
 | Action | How |
-|--------|-----|
-| Open graph | Ribbon icon or command palette → "Open knowledge graph" |
-| Pan / Zoom | Scroll to zoom, drag to pan |
+|---|---|
+| Open graph | Ribbon icon or `Open knowledge graph` command |
+| Pan & Zoom | Scroll to zoom, drag to pan |
 | Highlight neighbors | Click a node |
 | Open note | Double-click a node |
-| Focus current note | Command palette → "Focus graph on current note" |
-| Drag nodes | Drag a node to reposition |
+| Center on current note | `Focus graph on current note` command |
+| Drag nodes | Click and drag to reposition |
 
-## Settings
+### Settings
 
 | Setting | Description |
-|---------|-------------|
-| **Force strength** | Repulsion between nodes. More negative = wider spread |
-| **Node size** | Base radius. Nodes with more links grow proportionally |
-| **Show orphans** | Toggle visibility of unlinked notes |
-| **Color palette** | 11 schemes: Set3, Category10, Pastel, Accent, Dark2, Paired, Tableau10, Monochrome |
+|---|---|
+| **Force strength** | Repulsion between nodes — more negative = wider spread |
+| **Node size** | Base radius, scaled by connection count |
+| **Show orphans** | Show or hide notes without links |
+| **Color palette** | Set3 / Category10 / Pastel 1&2 / Set 1&2 / Accent / Dark2 / Paired / Tableau10 / Monochrome |
 
-## Development
+### Develop
 
 ```bash
-npm install          # Dependencies
-npm run dev          # Watch mode
-npm run build        # Production build
+npm install       # Dependencies
+npm run dev       # Watch mode
+npm run build     # Production build
 ```
 
-Built with TypeScript, esbuild, and D3.js v7. No runtime framework dependencies.
+Built with TypeScript, esbuild, D3.js v7. Zero runtime framework dependencies.
 
+Architecture and development history in [DEVLOG.md](DEVLOG.md).
 
-## License
+---
 
-MIT
+<p align="center">
+  <sub>MIT &copy; 2026 Atnagnohil</sub>
+</p>
