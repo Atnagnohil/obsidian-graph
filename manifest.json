@@ -1,10 +1,10 @@
 {
-  "id": "obsidian-knowledge-graph",
+  "id": "knowledge-graph",
   "name": "Knowledge Graph",
   "version": "0.1.0",
   "minAppVersion": "1.5.0",
   "description": "Interactive D3 force-directed knowledge graph for vault wikilinks.",
   "author": "Atnagnohil",
-  "authorUrl": "https://github.com/Atnagnohil/obsidian-graph",
+  "authorUrl": "https://github.com/Atnagnohil",
   "isDesktopOnly": false
 }

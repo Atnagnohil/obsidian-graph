@@ -4,7 +4,7 @@ import { buildGraphData } from '../graph/engine';
 import type { GraphData } from '../graph/types';
 import { GraphRenderer } from '../graph/renderer';
 
-export const VIEW_TYPE_GRAPH = 'obsidian-knowledge-graph-view';
+export const VIEW_TYPE_GRAPH = 'knowledge-graph-view';
 
 export class GraphView extends ItemView {
 	private plugin: KnowledgeGraphPlugin;
