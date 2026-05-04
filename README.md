@@ -70,7 +70,6 @@ npm run build        # Production build
 
 Built with TypeScript, esbuild, and D3.js v7. No runtime framework dependencies.
 
-See [DEVLOG.md](DEVLOG.md) for architecture, data flow diagrams, and full development history.
 
 ## License
 
